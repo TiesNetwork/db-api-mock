@@ -1,6 +1,6 @@
-    var express = require('express');
-var router = express.Router();
-var db = require('../app/db/db');
+let express = require('express');
+let router = express.Router();
+let db = require('../app/db/db');
 
 /* POST db data. */
 router.route('/:table').
@@ -25,6 +25,7 @@ router.route('/:table').
             console.log(e.stack);
             res.send('Error: ' + e.message);
         }
-    });
+    })
+;
 
 module.exports = router;
