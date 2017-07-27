@@ -9,18 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var dbr = require('./routes/db');
 var searchr = require('./routes/search');
-
-var config = require('./config');
-
-var db = require('./app/db/db');
-//Connect to database
-db.init({
-    contactPoints: [config.connection.address],
-    protocolOptions: { port: config.connection.port },
-    keyspace: config.connection.keyspace,
-    queryOptions: {consistency: db.types.consistencies.one},
-    authProvider: new db.auth.PlainTextAuthProvider(config.connection.login, config.connection.password)
-});
+var invite = require('./routes/invite');
 
 var app = express();
 
@@ -38,6 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/invite', invite);
 app.use('/db', dbr);
 app.use('/search', searchr);
 

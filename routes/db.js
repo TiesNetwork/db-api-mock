@@ -1,30 +1,48 @@
 let express = require('express');
 let router = express.Router();
-let db = require('../app/db/db');
+
+const c = require('../app/Connection');
+let db = c.db;
 
 /* POST db data. */
 router.route('/:table').
     post(async function(req, res, next) {
+        let result;
         try {
             let json = req.body;
             let table = req.params.table;
-            let result = await db.query_write(table, json);
-            res.send('record added');
+            let res = await db.query_write(table, json);
+            result = {
+                "ok": true,
+                "result": res
+            };
         }catch(e) {
             console.log(e.stack);
-            res.send('Error: ' + e.message);
+            result = {
+                "ok": false,
+                "error": e.message
+            };
         }
+        res.send(JSON.stringify(result));
     })
     .delete(async function(req, res, next) {
+        let result;
         try {
             let json = req.body;
             let table = req.params.table;
             let result = await db.query_delete(table, json);
-            res.send('record deleted');
+            result = {
+                "ok": true,
+                "result": res
+            };
         }catch(e) {
             console.log(e.stack);
-            res.send('Error: ' + e.message);
+            result = {
+                "ok": false,
+                "error": e.message
+            };
         }
+        res.send(JSON.stringify(result));
     })
 ;
 

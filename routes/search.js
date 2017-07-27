@@ -11,6 +11,7 @@ let rp = require('request-promise-native');
 /* POST db data. */
 router.route('/:table').
     post(async function(req, res, next) {
+        let result;
         try {
             let json = req.body;
             if(!EC.checkMessage(json))
@@ -23,17 +24,26 @@ router.route('/:table').
             let uri = `http://localhost:9200/${config.connection.keyspace}/${table}/_search`;
             console.log(uri);
 
-            let result = await rp({
+            let res = await rp({
                 method: 'POST',
                 body: {query: json.query},
                 uri: uri,
                 json: true // Automatically parses the JSON string in the response
             });
-            res.send(JSON.stringify(result));
+
+            result = {
+                "ok": true,
+                "result": res
+            }
         }catch(e) {
             console.log(e.stack);
-            res.send('Error: ' + e.message);
+            result = {
+                "ok": false,
+                "error": e.message
+            };
         }
+
+        res.send(JSON.stringify(result));
     })
 ;
 
