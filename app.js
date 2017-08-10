@@ -49,4 +49,8 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+app.initSignalServer = io => {
+  require('./app/SignalServer')(io);
+}
+
 module.exports = app;
