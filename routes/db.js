@@ -30,7 +30,7 @@ router.route('/:table').
         try {
             let json = req.body;
             let table = req.params.table;
-            let result = await db.query_delete(table, json);
+            let res = await db.query_delete(table, json);
             result = {
                 "ok": true,
                 "result": res
