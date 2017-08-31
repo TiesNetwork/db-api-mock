@@ -18,7 +18,7 @@ function checkName(name){
 
 cassandra.query_write = async function(table, json){
 	if(!EC.checkMessage(json))
-		throw new AnyBalance.Error('Message is not signed properly: ' + JSON.stringify(json));
+		throw new Error('Message is not signed properly: ' + JSON.stringify(json));
     checkName(table);
 
 	let result = await client.execute(`INSERT INTO "${table}" JSON '${JSON.stringify(json).replace(/'/g, "''")}'`);
@@ -27,7 +27,7 @@ cassandra.query_write = async function(table, json){
 
 cassandra.query_delete = async function(table, json){
 	if(!EC.checkMessage(json))
-		throw new AnyBalance.Error('Message is not signed properly: ' + JSON.stringify(json));
+		throw new Error('Message is not signed properly: ' + JSON.stringify(json));
     checkName(table);
 
     let where = [];
