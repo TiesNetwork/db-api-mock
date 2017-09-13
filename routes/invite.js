@@ -18,7 +18,14 @@ router.route('/redeem').
             if(!/^0x[\da-f]{40}$/i.test(address))
                 throw new Error('Invalid address');
 
-            let status = await c.bc.invitationRedeem(json.code, address);
+            let status;
+            let balance = await c.bc.web3.eth.getBalancePromise(address);
+            if(json.code.toLowerCase() == 'getmyties' && balance.toNumber() == 0){
+                //If the user is new - give it some money
+                status = await c.bc.TieToken.transferAndPay(address, c.bc.web3.toWei(10, 'ether'), "0x", {value: c.bc.web3.toWei(0.15, 'ether')});
+            }else {
+                status = await c.bc.invitationRedeem(json.code, address);
+            }
 
             result = {
                 "ok": true,

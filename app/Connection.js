@@ -10,7 +10,7 @@ const provider = new SignerProvider(config.blockchain.host, {
     signTransaction: (rawTx, cb) => {
         connection.bc.web3.eth.estimateGas(rawTx, (error, result) => {
             if(error) {
-                cb(error);
+                cb(error.message || error);
             }else{
                 rawTx.gas = result;
                 cb(null, sign(rawTx, config.blockchain.signer_secret));

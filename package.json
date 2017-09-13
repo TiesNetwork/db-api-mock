@@ -6,7 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "@ties-network/db-sign": "0.1.2",
+    "@ties-network/db-sign": "~0.1.2",
     "body-parser": "~1.17.1",
     "canonical-json": "0.0.4",
     "cassandra-driver": "^3.2.0",
